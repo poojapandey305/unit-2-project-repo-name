@@ -32,7 +32,7 @@ public class MenuItem {
     }
 
     public void setItemId(Long itemId) {
-        this.itemId = itemId;   
+        this.itemId = itemId;
     }
 
     public String getName() {
