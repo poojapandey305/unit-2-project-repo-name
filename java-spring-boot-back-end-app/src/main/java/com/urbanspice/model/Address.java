@@ -29,7 +29,7 @@ import jakarta.persistence.Id;
         private String zipCode;
 
         // ---------- Constructors ----------
-        public Address() {}  // Default constructor 
+        public Address() {}  // Default constructor
 
         public Address(String street, String city, String state, String zipCode) {
             this.street = street;
