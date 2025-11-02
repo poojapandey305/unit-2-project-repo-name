@@ -56,7 +56,13 @@ return "address deleted successfully";
 
     }
 
-
-
+@GetMapping("/city/{city}")
+    public List <Address>AddressessBYCity(@PathVariable String city){
+        return addressRepository.findByCity(city);
+}
+    @GetMapping("state/{state}")
+    public List <Address>AddressessBYState(@PathVariable String state){
+        return addressRepository.findByState(state);
+    }
 
 }
