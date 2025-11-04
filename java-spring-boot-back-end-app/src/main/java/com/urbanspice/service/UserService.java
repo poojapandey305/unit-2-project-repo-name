@@ -40,9 +40,16 @@ public class UserService {
     public void deleteUser(Long id){
         userRepository.deleteById(id);
     }
+// custom methods
+    //getting user by name
+    public List<User> getUsersByName( String name){
+        return userRepository.findByName(name);
+    }
 
-
-
+//get user by email
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
     }
 
 
