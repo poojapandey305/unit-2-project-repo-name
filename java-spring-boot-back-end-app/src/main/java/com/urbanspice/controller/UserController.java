@@ -56,7 +56,32 @@ public class UserController {
             return "user not found.";
         }
     }
-}
+
+        // Custom filters
+
+// Get all users by name
+        @GetMapping("/name/{name}")
+        public List<User> getUsersByName(@PathVariable String name) {
+            return userRepository.findByName(name);
+        }
+
+
+// Get a single user by email
+        @GetMapping("/email/{email}")
+        public User getUserByEmail(@PathVariable String email) {
+            return userRepository.findByEmail(email);
+        }
+
+
+
+
+    }
+
+
+
+
+
+
 
 
 
