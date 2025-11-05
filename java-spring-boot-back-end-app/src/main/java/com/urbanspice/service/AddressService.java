@@ -50,4 +50,15 @@ public class AddressService {
     public void deleteAddress(Long id) {
         addressRepository.deleteById(id);
     }
+
+
+public List<Address> getAddressesByCity(String city) {
+    return addressRepository.findByCity(city);
+}
+
+
+
+public List<Address> getAddressesByState(String state) {
+    return addressRepository.findByState(state);
+}
 }
