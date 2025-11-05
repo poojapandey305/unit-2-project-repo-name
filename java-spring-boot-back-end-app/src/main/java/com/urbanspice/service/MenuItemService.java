@@ -45,6 +45,12 @@ public class MenuItemService {
       menuItemRepository.deleteById(id);
     }
 
+    // getting item by category
+
+    public List<MenuItem> getItemByCategory(String category) {
+        return menuItemRepository.findByCategory(category);
+    }
+
 
       }
 
