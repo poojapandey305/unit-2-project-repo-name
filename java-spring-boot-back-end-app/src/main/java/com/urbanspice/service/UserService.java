@@ -11,7 +11,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     //crating a new user
-    public User crateUser(User user){
+    public User createUser(User user){
         return userRepository.save(user);
     }
     //getting all the users
