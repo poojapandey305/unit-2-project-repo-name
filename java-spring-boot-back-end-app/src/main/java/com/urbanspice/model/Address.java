@@ -28,6 +28,10 @@ import jakarta.persistence.Id;
         @Column(name = "zip_code")
         private String zipCode;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id") // foreign key in address table
+    private User user;
+
         // ---------- Constructors ----------
         public Address() {}  // Default constructor
 
@@ -38,7 +42,7 @@ import jakarta.persistence.Id;
             this.zipCode = zipCode;
         }
 
-        // ---------- Getters & Setters ----------
+        //getter and setter
         public Long getAddressId() {
             return addressId;
         }

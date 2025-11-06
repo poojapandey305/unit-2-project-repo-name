@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import java.util.List;
+
 @Entity
 @Table (name = "users")
 
@@ -14,6 +17,12 @@ public class User {
     private Long userId;
     private String name;
     private String email;
+
+
+    // One user can have many addresses
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> address;
+
 
     //default constructor
     public User(){}
