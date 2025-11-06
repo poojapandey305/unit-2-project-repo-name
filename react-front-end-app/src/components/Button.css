@@ -1,0 +1,18 @@
+* Base styles for reusable button */
+
+.customButton {
+  padding: 10px 16px;
+  background-color: #f3ebeb;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-family: sans-serif;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+/*hover effect*/
+.customButton:hover {
+  border-color: #ddc7f0;
+  background-color: #e2dddd;
+}

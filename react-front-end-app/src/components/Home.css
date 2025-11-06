@@ -1,0 +1,91 @@
+* Style for the main container */
+.mainpageDiv {
+  text-align: center;         /* It will center-align all text inside the div */
+  padding: 20px;              /* Add space inside the div */
+}
+
+/* Container for fooditem images */
+.mainfoodItems {
+  display: flex;              /* for arranging items in a row */
+  justify-content: center;    /* for centering items horizontally */
+  flex-wrap: wrap;            /* for moving to next line if screen is smaller and not enough space */
+  gap: 20px;                  /* Spacing between items */
+  margin-top: 100px;          /* Spacing above the section */
+}
+
+/* for styling the images inside the mainfoodItems container */
+.mainfoodItems img {
+  width: 20vw;                /* for makeing the element takeup  20% of the viewport width */
+  height: 25vh;               /* for  taking up 25% of the viewport height */
+  object-fit: cover;          /* for croping the image to cover the box */
+  border-radius: 20px;        /* for rounding the corners */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  /* for creating depth by light shadow effect */
+}
+/*creating special effect*/
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.appNameFadeIn {
+  animation: fadeIn 1s ease-in;
+}
+
+/* ---------- Mobile styles (screens smaller than 600px) ---------- */
+@media (max-width: 600px) {
+  .mainfoodItems {
+    flex-direction: column;  /* Stack items vertically */
+    align-items: center;     /* Center items */
+    gap: 16px;               /* Smaller gap between items */
+    margin-top: 40px;        /* Less top margin on small screens */
+  }
+
+  .mainfoodItems img {
+    width: 80vw;             /* Make images wider */
+    height: auto;            /* Adjust height automatically */
+  }
+
+  .mainpageText {
+    font-size: 14px;         /* Smaller font for small screens */
+    padding: 0 10px;         /* Add horizontal padding */
+  }
+}
+
+/* ---------- Tablet styles (600px to 1024px) ---------- */
+@media (min-width: 600px) and (max-width: 1024px) {
+  .mainfoodItems {
+    gap: 24px;               /* Medium space between images */
+  }
+
+  .mainfoodItems img {
+    width: 30vw;             /* Medium size images */
+    height: auto;            
+  }
+
+  .mainpageText {
+    font-size: 16px;         
+    padding: 0 20px;
+  }
+}
+
+/* ---------- Desktop styles (1025px and up) ---------- */
+@media (min-width: 1025px) {
+  .mainfoodItems {
+    gap: 32px;               /*for giving wider space between images */
+  }
+
+  .mainfoodItems img {
+    width: 20vw;             /*kfor keeping  original image size */
+    height: 25vh;
+  }
+
+  .mainpageText {
+    font-size: 18px;
+    padding: 0 30px;
+  }
+}

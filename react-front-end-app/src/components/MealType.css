@@ -1,0 +1,119 @@
+/* Base Styles (Desktop Default) */
+.menuDiv {
+  width: 60%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9f9f9;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.itemImage {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 12px;
+}
+
+.itemName {
+  flex: 2;
+  font-weight: 600;
+}
+
+.itemPrice {
+  flex: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+.itemQuantity {
+  flex: 1.5;
+  text-align: right;
+  margin-right: 8px;
+  font-weight: 600;
+}
+
+.quantitySelect {
+  flex: 0.5;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-weight: 600;
+}
+
+.priceDiv {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.orderButton {
+  margin-top: 15px;
+  background-color: #f3ebeb;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-family: sans-serif;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.orderButton:hover {
+  border-color: #ddc7f0;
+  background-color: #e2dddd;
+}
+
+/* Mobile: 0–600px */
+@media (max-width: 600px) {
+  .menuDiv {
+    width: 95%;
+  }
+
+  .menuItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .itemImage {
+    width: 100%;
+    height: auto;
+  }
+
+  .itemQuantity,
+  .quantitySelect {
+    width: 100%;
+    text-align: left;
+  }
+
+  .orderButton {
+    width: 100%;
+  }
+}
+
+/* Tablet: 601px – 1024px */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .menuDiv {
+    width: 85%;
+  }
+
+  .itemImage {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Desktop: 1025px and up */
+@media (min-width: 1025px) {
+  .menuDiv {
+    width: 60%;
+  }
+}

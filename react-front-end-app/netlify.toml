@@ -1,0 +1,4 @@
+[build]
+  base = "finalproject-unit1"
+  publish = "finalproject-unit1/dist"
+  command = "npm run build"

@@ -1,0 +1,22 @@
+
+
+.navBarDiv {
+  display: flex;
+  justify-content: space-around; 
+  align-items: center;
+  background-color: #a49dca;
+  color:rgb(0, 0, 0);
+  padding: 12px 40px;     
+  font-size: 16px;
+  width: 100%;                 
+  box-sizing: border-box;       
+  /*border-bottom: 1px solid #ddd;*/
+  flex-wrap: wrap;            
+}
+
+
+
+.navBarDiv a {
+  color: black !important;
+  font-weight: 500;
+}

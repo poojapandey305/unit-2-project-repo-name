@@ -1,0 +1,55 @@
+
+
+.aboutContainer {
+  width: 80%;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #a9c5e6; 
+  font-family: sans-serif;
+  border-radius: 0px;/*8px;*/
+}
+
+.aboutContainer h2 {
+  text-align: center;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.aboutIntro {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.infoList dt {
+  font-weight: bold;
+  margin-top: 12px;
+  color: #444;
+  text-align: center;
+}
+
+.infoList dd {
+  margin-left: 0;
+  margin-bottom: 10px;
+  color: #666;
+  text-align: center;
+}
+
+.timingTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.timingTable th,
+.timingTable td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.timingTable th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
