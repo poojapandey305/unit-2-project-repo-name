@@ -24,6 +24,8 @@ function MealType() {
       .then(response => response.json())
       .then(data => {
         setMenuItems(data);  // store response data
+
+        setTotal(0);
         selectRefs.current = [];  // clear previous dropdowns
          setLoading(false); // ADDED: stop loading after data is fetched
       })
