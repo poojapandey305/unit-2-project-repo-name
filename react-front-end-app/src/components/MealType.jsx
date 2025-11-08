@@ -1,4 +1,4 @@
- Importing necessary React tools and components
+ //Importing necessary React tools and components
 import { useParams, Link } from "react-router-dom";
 import React, { useRef, useState, useEffect } from "react";
 import './MealType.css';
@@ -12,20 +12,25 @@ function MealType() {
 
   // ADDED: state to hold menu items fetched from backend
   const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true); // ADDED: track if data is still loading
 
   const selectRefs = useRef([]);
   const [total, setTotal] = useState(0);
 
   // UPDATED: fetch live data from backend + added [mealType] dependency
   useEffect(() => {
+     setLoading(true); // start loading before fetch
     fetch(`http://localhost:8080/api/menuitems/category/${mealType}`)  // ADDED: fetch from backend by category
       .then(response => response.json())
       .then(data => {
         setMenuItems(data);  // store response data
         selectRefs.current = [];  // clear previous dropdowns
+         setLoading(false); // ADDED: stop loading after data is fetched
       })
-      .catch(error => console.error("Error fetching data:", error));
-  }, [mealType]); // ADDED: run again when user switches to another category
+      .catch(error => {
+  console.error("Error fetching data:", error);
+  setLoading(false);
+});}, [mealType]); // ADDED: run again when user switches to another category
 
   // Calculate total price
   const calculateTotal = () => {
@@ -36,7 +41,7 @@ function MealType() {
     });
     setTotal(sum);
   };
-
+if (loading) return <p>Loading {mealType} menu...</p>;//loading massage
   if (menuItems.length === 0) {
     return <p>No items found for {mealType}.</p>;
   }
