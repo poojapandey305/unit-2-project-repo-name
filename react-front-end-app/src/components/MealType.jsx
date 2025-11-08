@@ -1,61 +1,63 @@
-// Importing necessary React hooks and router tools
-import { useParams, Link } from "react-router-dom"; // for getting mealType from URL and create navigation links
-import foodMenu from "../data/foodMenu";             // Importing the food data
-import './MealType.css';                             
-import React, { useRef, useState, useEffect } from "react"; // Importing hooks for state 
-import MenuItem from './MenuItem';      // MenuItem is  child component that displays individual food items
-import Button from './Button';          // A reusable button component
+ Importing necessary React tools and components
+import { useParams, Link } from "react-router-dom";
+import React, { useRef, useState, useEffect } from "react";
+import './MealType.css';
+import MenuItem from './MenuItem';
+import Button from './Button';
+
+// REMOVED import foodMenu.js  // was used for mock data before
 
 function MealType() {
-  const { mealType } = useParams(); // for getting mealType (like 'breakfast' 'lunch' or 'dinner') from the route URL
+  const { mealType } = useParams();  // get category name from URL like 'breakfast' or 'lunch'
 
-  // Filtering the list of food items to only show those matching the selected meal type
-  const filteredItems = foodMenu.filter(item => item.category === mealType);
+  // ADDED: state to hold menu items fetched from backend
+  const [menuItems, setMenuItems] = useState([]);
 
-  const selectRefs = useRef([]); // useRef is used here to store references to each quantity dropdown (<select>) element
-  const [total, setTotal] = useState(0); // State to store and update the total calculated price
+  const selectRefs = useRef([]);
+  const [total, setTotal] = useState(0);
 
-  // Calculate total price based on selected quantities
+  // UPDATED: fetch live data from backend + added [mealType] dependency
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/menuitems/category/${mealType}`)  // ADDED: fetch from backend by category
+      .then(response => response.json())
+      .then(data => {
+        setMenuItems(data);  // store response data
+        selectRefs.current = [];  // clear previous dropdowns
+      })
+      .catch(error => console.error("Error fetching data:", error));
+  }, [mealType]); // ADDED: run again when user switches to another category
+
+  // Calculate total price
   const calculateTotal = () => {
     let sum = 0;
     selectRefs.current.forEach((selectElement, index) => {
-      const qty = parseInt(selectElement?.value) || 0; // it is saying if  no value is selected, treat it as 0
-      sum += qty * filteredItems[index].price; // for adding price * quantity
+      const qty = parseInt(selectElement?.value) || 0;
+      sum += qty * menuItems[index].price;
     });
-    setTotal(sum); // this will update total price state
+    setTotal(sum);
   };
 
-  // this will run once when component loads, to show initial price
-  useEffect(() => {
-    calculateTotal();
-  }, []);
-
-  // For showing message if no items match the selected meal type
-  if (filteredItems.length === 0) {
-    return <p>No items found for this meal type.</p>;
+  if (menuItems.length === 0) {
+    return <p>No items found for {mealType}.</p>;
   }
 
   return (
     <div className="menuDiv">
       <h2>{mealType.toUpperCase()} Menu</h2>
 
-      {/* using map to loop through filtered items and display each one using the MenuItem component */}
-      {filteredItems.map((item, index) => (
+      {menuItems.map((item, index) => (
         <MenuItem
-          key={item.id}  // Unique key for React rendering
-          item={item}    // this will pass item data to child component
-          refEl={selectElement => (selectRefs.current[index] = selectElement)} // this one will pass the select dropdown reference
-          onChange={calculateTotal} // this will recalculate total whenever quantity changes after user's action.
+          key={item.id}
+          item={item}
+          refEl={selectElement => (selectRefs.current[index] = selectElement)}
+          onChange={calculateTotal}
         />
       ))}
 
-      {/* Displaying  the total price */}
       <div className='priceDiv'>
-        Total Price: ${total}
+        Total Price: ${total.toFixed(2)}
       </div>
-      {/*navigation*/} 
 
-      {/* Button to go to the address form page */}
       <Link to="/address">
         <Button text="Order Now" className="orderButton" />
       </Link>
