@@ -22,7 +22,7 @@ function MealType() {
      setLoading(true); // start loading before fetch
     fetch(`http://localhost:8080/api/menuitems/category/${mealType}`)  // ADDED: fetch from backend by category
       .then(response => response.json())
-      .then(data => {
+      .then(data => { console.log("Fetched data:", data);  
         setMenuItems(data);  // store response data
 
         setTotal(0);
@@ -54,7 +54,7 @@ if (loading) return <p>Loading {mealType} menu...</p>;//loading massage
 
       {menuItems.map((item, index) => (
         <MenuItem
-          key={item.id}
+          key={item.itemId}
           item={item}
           refEl={selectElement => (selectRefs.current[index] = selectElement)}
           onChange={calculateTotal}

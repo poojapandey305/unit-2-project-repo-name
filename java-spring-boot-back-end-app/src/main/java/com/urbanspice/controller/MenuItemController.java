@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/menuitems")
+@CrossOrigin(origins = "http://localhost:5174")
 public class MenuItemController {
     @Autowired
     private MenuItemService menuItemService;
@@ -22,7 +23,7 @@ public class MenuItemController {
     // getting all the menu items
     @GetMapping
     public List<MenuItem> getAllMenuItems() {
-        return menuItemService.getAllMenuItem();
+        return menuItemService.getAllMenuItems();
     }
 
     // getting the menu item by id

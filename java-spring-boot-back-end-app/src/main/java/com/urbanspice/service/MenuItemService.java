@@ -14,8 +14,8 @@ public class MenuItemService {
   //creating new menu item
   public MenuItem createMenuItem(MenuItem menuItem){
       return menuItemRepository.save(menuItem);}
-      //getting all the MenuItem
-       public List<MenuItem> getAllMenuItem(){
+      //getting all the MenuItems
+       public List<MenuItem> getAllMenuItems(){
       return menuItemRepository.findAll();
        }
 
