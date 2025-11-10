@@ -16,17 +16,17 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
-
+//Retrieving all carts stored in the database.
     @GetMapping
     public List<Cart> getAllCarts() {
         return cartService.getAllCarts();
     }
-
+// Fetch a specific cart by its ID.(triggered when user opens their shopping cart to see what’s inside. )
     @GetMapping("/{id}")
     public Optional<Cart> getCartById(@PathVariable Long id) {
         return cartService.getCartById(id);
     }
-
+//for Adding a menu item to a user's existing cart(this method triggers when a user clicks "Add to Cart")
     @PostMapping("/{cartId}/addItem/{menuItemId}")
     public Cart addItemToCart(@PathVariable Long cartId,
                               @PathVariable Long menuItemId,
@@ -34,10 +34,14 @@ public class CartController {
         return cartService.addItemToCart(cartId, menuItemId, quantity);
     }
 
+    //for Removing a specific item from a user's cart.
     @DeleteMapping("/removeItem/{cartItemId}")
-    public void removeItem(@PathVariable Long cartItemId) {
+    public String removeItem(@PathVariable Long cartItemId) {
         cartService.removeItem(cartItemId);
+        return "Item removed successfully!";
     }
+
+
 }
 
 
