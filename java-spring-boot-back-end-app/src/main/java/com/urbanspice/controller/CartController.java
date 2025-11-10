@@ -26,6 +26,21 @@ public class CartController {
     public Optional<Cart> getCartById(@PathVariable Long id) {
         return cartService.getCartById(id);
     }
+
+    @PostMapping("/{cartId}/addItem/{menuItemId}")
+    public Cart addItemToCart(@PathVariable Long cartId,
+                              @PathVariable Long menuItemId,
+                              @RequestParam int quantity) {
+        return cartService.addItemToCart(cartId, menuItemId, quantity);
+    }
+
+    @DeleteMapping("/removeItem/{cartItemId}")
+    public void removeItem(@PathVariable Long cartItemId) {
+        cartService.removeItem(cartItemId);
+    }
+}
+
+
 }
 
 
