@@ -22,6 +22,9 @@ public class CartItem {
 
 
    private int quantity;
+    public double getItemTotal() {
+        return menuItem.getPrice() * quantity;
+    }
 
     public CartItem() {}
 
