@@ -36,12 +36,12 @@ public class CartService {
         cartItemRepository.save(cartItem);
         //step 5-adding the new cartItem to cart's list of item
         cart.getCartItems().add(cartItem);
-        // step 6 - recalculate total cost of cart using all items
+        // step 6 - Calculate total dynamically
         double total = cart.getCartItems().stream()
                 .mapToDouble(CartItem::getItemTotal).sum();
-        cart.setTotalAmount(total);
+        System.out.println("Cart total (not stored): " + total);
         //step7- save and return the updated cart
-        return cartRepository.save(cart);
+       return cartRepository.save(cart);
     }
 //to remove specific cartItem
     public void removeItem(Long cartItemId) {
