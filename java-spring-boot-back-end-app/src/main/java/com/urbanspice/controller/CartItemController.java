@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cartitems")
@@ -29,6 +30,10 @@ public class CartItemController {
     @GetMapping("/cart/{cartId}/total")
     public double getCartTotal(@PathVariable Long cartId) {
         return cartItemService.calculateCartTotal(cartId);
+    }
+    @GetMapping("/cart/{cartId}/withTotal")
+    public Map<String, Object> getCartWithTotal(@PathVariable Long cartId) {
+        return cartItemService.getCartWithTotal(cartId);
     }
 
     // Delete a single CartItem by its ID
