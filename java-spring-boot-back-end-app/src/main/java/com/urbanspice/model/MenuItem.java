@@ -1,5 +1,5 @@
 package com.urbanspice.model;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,8 +19,8 @@ public class MenuItem {
    //Entity relationship
     // one menuItem can appear in many cartItems
     @OneToMany(mappedBy= "menuItem", cascade = CascadeType.ALL,orphanRemoval = true)
-
-   private List<CartItem> cartItems;
+    @JsonBackReference
+    private List<CartItem> cartItems;
    //default constructor
     public MenuItem() {
     }

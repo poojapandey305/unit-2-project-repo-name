@@ -14,7 +14,10 @@ public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
 
-
+    @GetMapping("/cart/test")
+    public List<CartItem> testItems() {
+        return cartItemService.getAllCartItems();  //
+    }
 
     //  Get all CartItems for a given Cart
     @GetMapping("/cart/{cartId}")

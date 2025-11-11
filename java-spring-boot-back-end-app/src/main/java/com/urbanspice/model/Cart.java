@@ -1,5 +1,5 @@
 package com.urbanspice.model;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -17,6 +17,7 @@ public class Cart {
 
     // One cart can contain many items
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<CartItem> cartItems;
 
     public Cart() {}

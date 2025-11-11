@@ -18,6 +18,11 @@ public class CartItemService {
     @Autowired
     private CartRepository cartRepository;
 
+    // Get all cart items (useful for testing or admin view)
+    public List<CartItem> getAllCartItems() {
+        return cartItemRepository.findAll();
+    }
+
     // Get all CartItems for a specific Cart
     public List<CartItem> getCartItemsByCartId(Long cartId) {
         return cartItemRepository.findByCartCartId(cartId);
