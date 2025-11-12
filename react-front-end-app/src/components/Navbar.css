@@ -13,7 +13,11 @@
   /*border-bottom: 1px solid #ddd;*/
   flex-wrap: wrap;            
 }
-
+nav ul {
+  list-style-type: none; /* removes dots or bullets */
+  padding: 0;
+  margin: 0;
+}
 
 
 .navBarDiv a {

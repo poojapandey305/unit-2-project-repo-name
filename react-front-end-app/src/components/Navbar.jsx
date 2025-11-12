@@ -24,6 +24,8 @@ function Navbar() {
 
         {/* Link to About Us page */}
         <Link to="/about">About Us</Link>
+        
+         <Link to="/cart">Cart</Link>
       </div>
     </nav>
   );
