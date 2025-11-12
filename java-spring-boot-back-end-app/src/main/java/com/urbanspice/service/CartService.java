@@ -1,50 +1,106 @@
+
 package com.urbanspice.service;
+
 import com.urbanspice.model.Cart;
-import com.urbanspice.repository.CartRepository;
 import com.urbanspice.model.CartItem;
 import com.urbanspice.model.MenuItem;
+import com.urbanspice.model.User;
 import com.urbanspice.repository.CartItemRepository;
 import com.urbanspice.repository.CartRepository;
 import com.urbanspice.repository.MenuItemRepository;
+import com.urbanspice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
+
+  //connects Cart, CartItem, MenuItem, and User repositories.
+
 @Service
 public class CartService {
-    // Injecting all the repositories needed for Cart operations
+
     @Autowired private CartRepository cartRepository;
     @Autowired private CartItemRepository cartItemRepository;
     @Autowired private MenuItemRepository menuItemRepository;
-//to fetch all cart from the database
-    public List<Cart> getAllCarts() { return cartRepository.findAll(); }
-//to fetch a single cart by id
-    public Optional<Cart> getCartById(Long id) { return cartRepository.findById(id); }
-//Adding a menuItem to existing cart
-    // step 1-getting the existing cart by id
-    public Cart addItemToCart(Long cartId, Long menuItemId, int quantity) {
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
+    @Autowired private UserRepository userRepository;
 
-        //step2- getting the menuItem user wants to add.
-        MenuItem menuItem = menuItemRepository.findById(menuItemId)
-                .orElseThrow(() -> new RuntimeException("Menu item not found"));
-        //creating a new cartItem(one cartItem represents one menuItem)
-        CartItem cartItem = new CartItem(cart, menuItem, quantity);
-        //step4- saving the cart item
-        cartItemRepository.save(cartItem);
-        //step 5-adding the new cartItem to cart's list of item
-        cart.getCartItems().add(cartItem);
-        // step 6 - Calculate total dynamically
-        double total = cart.getCartItems().stream()
-                .mapToDouble(CartItem::getItemTotal).sum();
-        System.out.println("Cart total (not stored): " + total);
-        //step7- save and return the updated cart
-       return cartRepository.save(cart);
+   //method to get all the carts
+    public List<Cart> getAllCarts() {
+        return cartRepository.findAll();
     }
-//to remove specific cartItem
+    //getting a single cart by its ID
+    public Optional<Cart> getCartById(Long id) {
+        return cartRepository.findById(id);
+    }
+
+    // Method to get or create a cart for a specific user
+     //If the user does not have one, a new empty cart is created.
+
+    public Cart getOrCreateCart(Long userId) {
+        // Check if user exists
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+
+        // Check if a cart already exists for this user
+        Cart cart = cartRepository.findByUser_UserId(userId);
+        if (cart == null) {
+            // Create a new cart for this user
+            cart = new Cart(user);
+            cartRepository.save(cart);
+        }
+        return cart;
+    }
+
+    //Method to add a menu item to an existing cart.
+     // If the item already exists, update its quantity instead of adding a duplicate.
+
+    public Cart addItemToCart(Long cartId, Long menuItemId, int quantity) {
+        // Find existing cart
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found with ID: " + cartId));
+
+        // Find menu item to add
+        MenuItem menuItem = menuItemRepository.findById(menuItemId)
+                .orElseThrow(() -> new RuntimeException("Menu item not found with ID: " + menuItemId));
+
+        // Check if the item already exists in the cart
+        CartItem existingItem = cart.getCartItems().stream()
+                .filter(ci -> ci.getMenuItem().getItemId().equals(menuItemId))
+                .findFirst()
+                .orElse(null);
+
+        if (existingItem != null) {
+            // Update quantity
+            existingItem.setQuantity(existingItem.getQuantity() + quantity);
+            cartItemRepository.save(existingItem);
+        } else {
+            // Create new cart item and add to cart
+            CartItem newItem = new CartItem(cart, menuItem, quantity);
+            cartItemRepository.save(newItem);
+            cart.getCartItems().add(newItem);
+        }
+
+        return cartRepository.save(cart);
+    }
+
+    //Method to remove a specific item from the cart */
     public void removeItem(Long cartItemId) {
         cartItemRepository.deleteById(cartItemId);
+    }
+
+    //method to calculate the total value of all items in the cart dynamically.
+    //It multiplies each item's price × quantity and sums them.
+
+    public double calculateTotal(Long cartId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new RuntimeException("Cart not found with ID: " + cartId));
+
+        if (cart.getCartItems() == null || cart.getCartItems().isEmpty()) return 0.0;
+
+        return cart.getCartItems().stream()
+                .mapToDouble(CartItem::getItemTotal)
+                .sum();
     }
 }

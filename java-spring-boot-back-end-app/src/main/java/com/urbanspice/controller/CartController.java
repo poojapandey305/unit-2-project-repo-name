@@ -33,6 +33,16 @@ public class CartController {
                               @RequestParam int quantity) {
         return cartService.addItemToCart(cartId, menuItemId, quantity);
     }
+    // Fetch or create a cart for a specific user
+    @GetMapping("/user/{userId}")
+    public Cart getOrCreateCartByUser(@PathVariable Long userId) {
+        return cartService.getOrCreateCart(userId);
+    }
+//to show total price dynamically
+    @GetMapping("/{cartId}/total")
+    public double getCartTotal(@PathVariable Long cartId) {
+        return cartService.calculateTotal(cartId);
+    }
 
     //for Removing a specific item from a user's cart.
     @DeleteMapping("/removeItem/{cartItemId}")

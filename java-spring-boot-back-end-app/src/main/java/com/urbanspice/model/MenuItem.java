@@ -19,7 +19,7 @@ public class MenuItem {
    //Entity relationship
     // one menuItem can appear in many cartItems
     @OneToMany(mappedBy= "menuItem", cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonBackReference
+    @JsonBackReference("menuItem-cartItems")
     private List<CartItem> cartItems;
    //default constructor
     public MenuItem() {

@@ -17,7 +17,7 @@ public class Cart {
 
     // One cart can contain many items
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("cart-cartItems")
     private List<CartItem> cartItems;
 
     public Cart() {}

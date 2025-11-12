@@ -1,6 +1,5 @@
 package com.urbanspice.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,12 +14,12 @@ public class CartItem {
     // many items can belong to one cart
     @ManyToOne
     @JoinColumn(name= "cart_id")
-    @JsonBackReference
+    @JsonBackReference("cart-cartItems")
     private Cart cart;
     //many cart item can refer to one menuItem
     @ManyToOne
     @JoinColumn(name="item_id")
-    @JsonManagedReference
+    @JsonBackReference("menuItem-cartItems")
     private MenuItem menuItem;
 
 
