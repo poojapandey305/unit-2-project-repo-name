@@ -1,4 +1,5 @@
 package com.urbanspice.model;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
@@ -7,46 +8,71 @@ public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "cart_item_id")
     private Long cartItemId;
 
-    //entity relationship
-    // many items can belong to one cart
+    private int quantity;
+    private double itemTotal;
+
+    // Each CartItem belongs to one Cart
     @ManyToOne
-    @JoinColumn(name= "cart_id")
+    @JoinColumn(name = "cart_id")
     @JsonBackReference("cart-cartItems")
     private Cart cart;
-    //many cart item can refer to one menuItem
+
+    // Each CartItem refers to one MenuItem
     @ManyToOne
-    @JoinColumn(name="item_id")
-    @JsonBackReference("menuItem-cartItems")
+    @JoinColumn(name = "menu_item_id")
     private MenuItem menuItem;
 
-
-   private int quantity;
-    public double getItemTotal() {
-        return menuItem.getPrice() * quantity;
-    }
-
+    // Default constructor
     public CartItem() {}
 
-    public CartItem(Cart cart,MenuItem menuItem, int quantity) {
+    // Constructor for quick creation
+    public CartItem(Cart cart, MenuItem menuItem, int quantity, double itemTotal) {
         this.cart = cart;
         this.menuItem = menuItem;
         this.quantity = quantity;
+        this.itemTotal = itemTotal;
     }
 
-    // Getters & Setters
-    public Long getCartItemId() { return cartItemId; }
-    public void setCartItemId(Long cartItemId) { this.cartItemId = cartItemId; }
+    // Getters and setters
+    public Long getCartItemId() {
+        return cartItemId;
+    }
 
-    public Cart getCart() { return cart; }
-    public void setCart(Cart cart) { this.cart = cart; }
+    public void setCartItemId(Long cartItemId) {
+        this.cartItemId = cartItemId;
+    }
 
-    public MenuItem getMenuItem() { return menuItem; }
-    public void setMenuItem(MenuItem menuItem) { this.menuItem = menuItem; }
+    public int getQuantity() {
+        return quantity;
+    }
 
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getItemTotal() {
+        return itemTotal;
+    }
+
+    public void setItemTotal(double itemTotal) {
+        this.itemTotal = itemTotal;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public MenuItem getMenuItem() {
+        return menuItem;
+    }
+
+    public void setMenuItem(MenuItem menuItem) {
+        this.menuItem = menuItem;
+    }
 }
-

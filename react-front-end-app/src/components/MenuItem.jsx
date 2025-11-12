@@ -12,25 +12,30 @@ function MenuItem({ item, refEl, onChange }) {
 
   return (
     <div className="menuItem">
-      {/* for displaying the item's image with alt text for accessibility */}
-      <img src={item.image} alt={item.name} className="itemImage" />
+      {/* displaying the item's image with alt text for accessibility */}
+      <img
+        src={item.image && item.image.startsWith('/') ? item.image : `/${item.image}`}
+        alt={item.name}
+        className="itemImage"
+      />
 
       {/* displaying the food item's name */}
       <span className="itemName">{item.name}</span>
 
-      {/* Showing the price of the item */}
+      {/* showing the price of the item */}
       <span className="itemPrice">${item.price}</span>
 
-      {/* Label shown before the dropdown to tell the user what it does */ }
+      {/* label shown before the dropdown */}
       <span className="itemQuantity">Select Quantity:</span>
 
       {/* Dropdown menu to select quantity */}
       <select
         className="quantitySelect"
-        ref={refEl}           //  this will pass the dropdown element to the parent so it can read the selected quantity
-        onChange={onChange}   // This will trigger a function when the user changes the quantity and Call parent's onChange handler to update total
+        ref={refEl}                   // Pass dropdown element reference to parent
+        value={item.selectedQty || 0} // prefill quantity based on backend data
+        onChange={onChange}           // Trigger parent's handler on change
       >
-        {/* Looping through quantity options and creating a dropdown option for each (0 to 5) */}
+        {/* Looping through quantity options and creating dropdown options */}
         {quantities.map(qty => (
           <option key={qty} value={qty}>{qty}</option>
         ))}
@@ -39,5 +44,4 @@ function MenuItem({ item, refEl, onChange }) {
   );
 }
 
-// Export this component so it can be used in other files
 export default MenuItem;

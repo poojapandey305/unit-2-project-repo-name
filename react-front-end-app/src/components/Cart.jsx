@@ -1,183 +1,91 @@
-import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import "./Cart.css";
-import Button from "./Button";
+
+//Importing necessary React tools and components
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Cart.css';
 
 function Cart() {
-  // State variables to store cart data, loading status, and error messages
+  // state variables
   const [cart, setCart] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [message, setMessage] = useState(""); // For inline total or info message
-  const navigate = useNavigate(); // used for smooth page navigation
+  const [total, setTotal] = useState(0);
+  const navigate = useNavigate();
 
-  const userId = 1; // fixed user id
-  const baseURL = "http://localhost:8080/api/carts"; // backend base URL
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  const userId = user?.id || 1; // fallback to default user if not logged in
+  const baseURL = "http://localhost:8080/api/carts";
 
-  // Fetch cart data when component loads
+  // fetch the cart for current user
   useEffect(() => {
     fetch(`${baseURL}/user/${userId}`)
-      .then((response) => {
-        if (!response.ok) throw new Error("Failed to load cart");
-        return response.json();
-      })
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
+        console.log("Cart data:", data);
         setCart(data);
-        setLoading(false);
+
+        // calculate total if items exist
+        if (data && data.cartItems) {
+          const sum = data.cartItems.reduce((acc, item) => {
+            const price = Number(item.menuItem?.price || 0);
+            const qty = Number(item.quantity || 0);
+            return acc + price * qty;
+          }, 0);
+          setTotal(sum);
+        }
       })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+      .catch(err => console.error("Error fetching cart:", err));
+  }, [userId]);
 
-  // remove specific item from cart and refresh
-  const handleRemoveItem = async (cartItemId) => {
-    const confirmDelete = window.confirm("Are you sure you want to remove this item?");
-    if (!confirmDelete) return;
-
-    try {
-      const response = await fetch(`${baseURL}/removeItem/${cartItemId}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error("Failed to remove item");
-
-      const updatedCart = await fetch(`${baseURL}/user/${userId}`).then((r) => r.json());
-      setCart(updatedCart);
-      setMessage("Item removed successfully!");
-    } catch (err) {
-      setError("Error removing item: " + err.message);
-    }
-  };
-
-  // change quantity of an item
-  const handleQuantityChange = async (cartItemId, newQuantity) => {
-    try {
-      const response = await fetch(
-        `${baseURL}/updateQuantity/${cartItemId}?quantity=${newQuantity}`,
-        { method: "PUT" }
-      );
-      if (!response.ok) throw new Error("Failed to update quantity");
-
-      const updatedCart = await fetch(`${baseURL}/user/${userId}`).then((r) => r.json());
-      setCart(updatedCart);
-      setMessage("Quantity updated successfully!");
-    } catch (err) {
-      setError("Error updating quantity: " + err.message);
-    }
-  };
-
-  // calculate total from backend and show inline message (no alert)
-  const handleGetTotal = async () => {
-    try {
-      const response = await fetch(`${baseURL}/${cart.cartId}/total`);
-      if (!response.ok) throw new Error("Failed to calculate total");
-      const total = await response.text();
-      setMessage(`Your cart total is $${parseFloat(total).toFixed(2)}`);
-    } catch (err) {
-      setError("Error calculating total: " + err.message);
-    }
-  };
-
-  if (loading) return <p>Loading cart...</p>;
-  if (error) return <p className="error-text">Error: {error}</p>;
-  if (!cart) return <p>No cart found.</p>;
+  if (!cart) return <p>Loading cart...</p>;
 
   return (
-    <div className="cart-container">
-      <h2>Your Shopping Cart</h2>
+    <div className="cartDiv">
+      <h2>Your Cart</h2>
 
-      {/* If no items in cart, show message */}
-      {cart.cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
-        <table className="cart-table">
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Price ($)</th>
-              <th>Quantity</th>
-              <th>Total ($)</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart.cartItems.map((item) => (
-              <tr key={item.cartItemId}>
-                <td>{item.menuItem?.name || "Unknown Item"}</td>
-                <td>{item.menuItem?.price?.toFixed(2) || "0.00"}</td>
-                <td>
-                  <input
-                    type="number"
-                    min="1"
-                    value={item.quantity}
-                    onChange={(e) =>
-                      handleQuantityChange(item.cartItemId, e.target.value)
-                    }
-                    style={{
-                      width: "60px",
-                      textAlign: "center",
-                      borderRadius: "5px",
-                      border: "1px solid #ccc",
-                    }}
-                  />
-                </td>
-                <td>
-                  {(item.menuItem?.price * item.quantity).toFixed(2) || "0.00"}
-                </td>
-                <td>
-                  <Button
-                    text="Remove"
-                    onClick={() => handleRemoveItem(item.cartItemId)}
-                    className="smallButton"
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      {/* check if there are items in the cart */}
+      {cart.cartItems && cart.cartItems.length > 0 ? (
+        <>
+          {/* render each cart item */}
+          {cart.cartItems.map((ci) => (
+            <div key={ci.cartItemId} className="cartItem">
+              <img
+                src={ci.menuItem?.image && ci.menuItem.image.startsWith('/')
+                  ? ci.menuItem.image
+                  : `/${ci.menuItem?.image}`}
+                alt={ci.menuItem?.name}
+                className="cartItemImage"
+              />
+              <span className="cartItemName">{ci.menuItem?.name}</span>
+              <span className="cartItemQty">Qty: {ci.quantity}</span>
+              <span className="cartItemPrice">
+                ${(ci.menuItem?.price * ci.quantity).toFixed(2)}
+              </span>
+            </div>
+          ))}
 
-      {/* Order summary section */}
-      {cart.cartItems.length > 0 && (
-        <div className="cart-summary">
-          <h3>Order Summary</h3>
-
-          <p>
-            Subtotal: $
-            {cart.cartItems
-              .reduce(
-                (sum, item) => sum + item.menuItem?.price * item.quantity,
-                0
-              )
-              .toFixed(2)}
-          </p>
-
-          <p>Delivery: $0.00</p>
-          <hr />
-
-          {/* Buttons styled */}
-          <div style={{ textAlign: "center" }}>
-            <Button
-              text="Calculate Total"
-              onClick={handleGetTotal}
-              className="total-btn"
-            />
-            <Button
-              text="Proceed to Checkout"
-              onClick={() => navigate("/address")}
-              className="nxtButton"
-            />
-            <Button
-              text="⬅ Back to Menu"
-              onClick={() => navigate("/")}
-              className="smallButton"
-            />
+          {/* total section */}
+          <div className="cartTotal">
+            <strong>Total: ${isNaN(total) ? 0 : total.toFixed(2)}</strong>
           </div>
 
-          {/* Inline message display */}
-          {message && <p className="message">{message}</p>}
-        </div>
+          {/* action buttons */}
+          <div className="cartButtons">
+            <button
+              className="goBackButton"
+              onClick={() => navigate(-1)}  // navigate to previous page
+            >
+              Go Back
+            </button>
+
+            <button
+              className="checkoutButton"
+              onClick={() => navigate("/address")}
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        </>
+      ) : (
+        <p>Your cart is empty.</p>
       )}
     </div>
   );
