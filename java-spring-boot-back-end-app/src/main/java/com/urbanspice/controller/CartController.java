@@ -50,6 +50,11 @@ public class CartController {
         cartService.removeItem(cartItemId);
         return "Item removed successfully!";
     }
+    // To update quantity of a specific cart item
+    @PutMapping("/updateQuantity/{cartItemId}")
+    public Cart updateItemQuantity(@PathVariable Long cartItemId, @RequestParam int quantity) {
+        return cartService.updateItemQuantity(cartItemId, quantity);
+    }
 
 
 }

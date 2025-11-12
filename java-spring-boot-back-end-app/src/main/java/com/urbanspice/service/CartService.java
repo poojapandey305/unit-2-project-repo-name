@@ -103,4 +103,17 @@ public class CartService {
                 .mapToDouble(CartItem::getItemTotal)
                 .sum();
     }
+    // To update the quantity of an item in the cart
+    public Cart updateItemQuantity(Long cartItemId, int quantity) {
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+
+        cartItem.setQuantity(quantity);
+        cartItemRepository.save(cartItem);
+
+        // Return the updated cart
+        return cartItem.getCart();
+    }
+
+
 }
