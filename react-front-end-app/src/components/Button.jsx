@@ -1,20 +1,21 @@
-/// Importing React library
+// Importing React library
 import React from 'react';
 
 // Import CSS file to style the button
 import './Button.css';
 
-// creating a button component that can be reused across the app
+// creating a reusable button component that can be used across the app
 function Button({ text, onClick, type = "button", className = "" }) {
   return (
     <button
-      className={`customButton ${className}`} // Combining  default and custom class names
-      type={type} // for setting up button type like submit, button)
-      onClick={onClick} // Call function when button is clicked
+      className={`customButton ${className}`} // combining default and custom class names
+      type={type} // defining the button type (button / submit)
+      onClick={onClick} // function to be called when the button is clicked
     >
-      {text} {/* For Showing the text passed to the button */}
+      {text} {/* text to be displayed on the button */}
     </button>
   );
 }
 
+// exporting the button component to be used in other components
 export default Button;

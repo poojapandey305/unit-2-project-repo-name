@@ -1,59 +1,84 @@
-import { useState } from "react";
-import './PaymentPreference.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./PaymentPreference.css";
+import Button from "./Button";
 
-// This component lets the user select a payment option
 function PaymentPreference() {
-  const [payment, setPayment] = useState("");         // Stores selected payment method
-  const [thankYou, setThankYou] = useState(false);    // Controls display of thank you message
+  const [selectedMethod, setSelectedMethod] = useState("Pay on Delivery"); // default choice
+  const [message, setMessage] = useState(""); // to display confirmation/status message
+  const navigate = useNavigate();
 
-  // Handle user selecting a payment option
-  const handleChange = (e) => {
-    const selected = e.target.value;    // Getting value from selected radio button
-    setPayment(selected);               // Updating selected payment option
+  // When user clicks confirm payment button
+  const handleConfirm = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/payments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paymentMethod: selectedMethod,
+          paymentStatus: "Pending", // MVP keeps Pay on Delivery default as Pending
+        }),
+      });
 
-    // If "Pay on Delivery" is chosen, show thank you message
-    if (selected === "Pay on Delivery") {
-      setThankYou(true);
-    } else {
-      setThankYou(false); // Hide message if selection changes
+      if (!response.ok) throw new Error("Failed to create payment");
+
+      setMessage(`Order confirmed successfully! 
+Payment Method: ${selectedMethod} 
+Status: Pending`);
+    } catch (err) {
+      setMessage("Error confirming payment: " + err.message);
     }
   };
 
+  // To navigate back to Address form if needed
+  const handlePrevious = () => {
+    navigate(-1);
+  };
+
   return (
-    <div className="paymentDiv">
-      <h2>Select Payment Option</h2>
+    <div className="payment-container">
+      <h2>Payment Preference</h2>
 
-      {/* Radio option for "Pay Now" */}
-      <label>
-        <input
-          type="radio"
-          value="Pay Now"
-          checked={payment === "Pay Now"}   // this one checks the correct radio button
-          onChange={handleChange}           // this one handles user selection
+      <div className="payment-options">
+        <label>
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="Pay on Delivery"
+            checked={selectedMethod === "Pay on Delivery"}
+            onChange={(e) => setSelectedMethod(e.target.value)}
+          />
+          Pay on Delivery
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="Pay Now"
+            checked={selectedMethod === "Pay Now"}
+            onChange={(e) => setSelectedMethod(e.target.value)}
+          />
+          Pay Now (Coming Soon)
+        </label>
+      </div>
+
+      {/* Button section styled like AddressForm */}
+      <div className="payment-buttons">
+        <Button
+          text="⬅ Previous"
+          onClick={handlePrevious}
+          className="prvButton"
         />
-        Pay Now
-      </label>
-
-      {/* Radio option for "Pay on Delivery" */}
-      <label>
-        <input
-          type="radio"
-          value="Pay on Delivery"
-          checked={payment === "Pay on Delivery"}
-          onChange={handleChange}
+        <Button
+          text="Confirm Payment"
+          onClick={handleConfirm}
+          className="nxtButton"
         />
-        Pay on Delivery
-      </label>
+      </div>
 
-      {/* Showing current selection */}
-      <p>You selected: {payment}</p>
-
-      {/* Thank you message appears only when Pay on Delivery is selected */}
-      {thankYou && (
-        <div style={{ marginTop: "1rem", color: "green" }}>
-          Thank you! Your order has been placed. You can pay on delivery.
-        </div>
-      )}
+      {/* Message displayed after confirmation */}
+      {message && <p className="confirmation-message">{message}</p>}
     </div>
   );
 }

@@ -12,7 +12,7 @@ public class Payment {
 //-----RELATIONSHIPS--------------------------------------
 // ones payment belongs to one order
 @OneToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id", nullable = true)
 private Order order;
 // ---------- OTHER FIELDS ----------
     private String paymentMethod;   // e.g. "Pay on Delivery", "Credit Card"

@@ -1,66 +1,75 @@
+/* Main container centered with soft theme */
 .cart-container {
   padding: 20px;
   margin: 30px auto;
   width: 80%;
+  max-width: 900px;
   border-radius: 12px;
   background-color: #fff8f3;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center; /* center headings and summary */
 }
 
+/* Headings */
 h2 {
   margin-bottom: 20px;
   text-align: center;
 }
 
+/* Table styles */
 .cart-table {
   width: 100%;
   border-collapse: collapse;
+  margin: 0 auto; /* centers the table */
 }
 
 .cart-table th,
 .cart-table td {
   border-bottom: 1px solid #ddd;
   padding: 10px;
-  text-align: left;
+  text-align: center; /* center align table content */
 }
 
-.remove-btn {
-  background-color: #ff6666;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.remove-btn:hover {
-  background-color: #ff3333;
-}
-
-.total-btn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #ff9800;
+/* Buttons matching AddressForm style */
+.nxtButton,
+.total-btn,
+.smallButton {
+  background-color: #264653;
   color: white;
   border: none;
   border-radius: 8px;
+  padding: 8px 16px;
+  margin: 8px 4px;
   cursor: pointer;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
-.total-btn:hover {
-  background-color: #e68a00;
+.nxtButton:hover,
+.total-btn:hover,
+.smallButton:hover {
+  background-color: #2a9d8f;
 }
 
+/* Inline info message */
+.message {
+  margin-top: 15px;
+  text-align: center;
+  color: #264653;
+  font-weight: 500;
+}
+
+/* Error message */
 .error-text {
-
   color: red;
   text-align: center;
+  margin-top: 10px;
 }
-.cart-container {
-  color: black !important; /* 👈 force text to be visible */
-  border: 2px solid red;   /* 👈 make container obvious */
-  background-color: white !important; /* 👈 contrast background */
+
+/* Order summary box centered */
+.cart-summary {
+  margin-top: 30px;
+  padding: 15px;
+  border-top: 2px solid #ddd;
+  text-align: center;
 }

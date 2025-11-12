@@ -15,11 +15,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @PostMapping (
-            value = "",
-            consumes = {"application/json", "application/json;charset=UTF-8"},
-            produces = "application/json"
-    )
+    @PostMapping
     public Payment createPayment(@RequestBody Payment payment) {
         return paymentService.savePayment(payment);
     }
