@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
 import Cart from "./components/Cart";
+import Login from "./components/Login";     
 import "./components/styles.css";
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
         <Route path="/checkout" element={<PaymentPreference />} />
         <Route path="/about" element={<About />} />
         <Route path="/cart" element={<Cart />} />
+
+        <Route path="/login" element={<Login />} />   
+
         <Route path="*" element={<NotFound />} />
       </Routes>
 
