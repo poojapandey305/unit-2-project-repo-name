@@ -16,7 +16,7 @@ public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
 
-    // Create new address
+    //  to Create new address
     public Address createAddress(Address address) {
         return addressRepository.save(address);
     }
@@ -26,12 +26,12 @@ public class AddressService {
         return addressRepository.findAll();
     }
 
-    //  Get address by ID
+    // TO Get address by ID
     public Optional<Address> getAddressById(Long id) {
         return addressRepository.findById(id);
     }
 
-    // Update existing address
+    //  To Update existing address
     public Address updateAddress(Long id, Address updatedAddress) {
         Optional<Address> existingOpt = addressRepository.findById(id);
         if (existingOpt.isPresent()) {

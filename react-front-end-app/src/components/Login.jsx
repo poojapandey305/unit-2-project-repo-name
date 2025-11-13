@@ -9,7 +9,8 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  //  handleLogin  login for real backend login
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -18,9 +19,30 @@ function Login() {
       return;
     }
 
-    console.log("Login sent:", { email, password });
+    try {
+      const response = await fetch("http://localhost:8080/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    navigate("/"); // redirect to home page
+      if (!response.ok) {
+        const msg = await response.text();
+        setError(msg);
+        return;
+      }
+
+      const user = await response.json();
+
+      // to save  logged-in user to localStorage
+      localStorage.setItem("urbanspiceUser", JSON.stringify(user));
+
+      navigate("/"); // Login success → go home
+    } catch (error) {
+      setError("Something went wrong. Please try again.");
+    }
   };
 
   return (

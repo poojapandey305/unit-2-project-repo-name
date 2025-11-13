@@ -19,12 +19,12 @@ public class PaymentController {
     public Payment createPayment(@RequestBody Payment payment) {
         return paymentService.savePayment(payment);
     }
-
+//to get list of payments happened
     @GetMapping
     public List<Payment> getAllPayments() {
         return paymentService.getAllPayments();
     }
-
+//to get payment by id
     @GetMapping("/{paymentId}")
     public Payment getPaymentById(@PathVariable Long paymentId) {
         return paymentService.getPaymentById(paymentId);

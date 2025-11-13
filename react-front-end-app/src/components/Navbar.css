@@ -24,3 +24,15 @@ nav ul {
   color: black !important;
   font-weight: 500;
 }
+.logout-link {
+  color: black;     
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 10px;
+  font-weight: 500; 
+}
+
+.logout-link:hover {
+  text-decoration: none;  
+  color: black;            
+}

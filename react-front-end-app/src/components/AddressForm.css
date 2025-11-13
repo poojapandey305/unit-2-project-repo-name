@@ -72,3 +72,8 @@ form div {
   margin-bottom: 8px;
   text-align: left;
 }
+.errorText {
+  color: red;
+  font-weight: bold;
+  margin-top: 5px;
+}

@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AddressForm.css";
 
 function AddressForm() {
   const navigate = useNavigate();
-  const loadedOnce = useRef(false); // prevents double-reset from StrictMode
+  const loadedOnce = useRef(false);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -16,9 +15,11 @@ function AddressForm() {
     phone: "",
   });
 
-  // Load saved data once
+  const [error, setError] = useState(""); // added for validation
+
+  // To load saved data once
   useEffect(() => {
-    if (loadedOnce.current) return; // only run first time
+    if (loadedOnce.current) return;
     loadedOnce.current = true;
 
     const saved = localStorage.getItem("addressForm");
@@ -31,25 +32,49 @@ function AddressForm() {
     }
   }, []);
 
-  // Save any change to localStorage
+  // method to Save any change to localStorage
   useEffect(() => {
     localStorage.setItem("addressForm", JSON.stringify(formData));
   }, [formData]);
 
-  // Handle typing
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Proceed button
+  // Proceed button with validation
   const handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("addressForm", JSON.stringify(formData)); // ensure latest
-    navigate("/checkout"); // go to payment
+    setError(""); // reset error
+    
+    
+  //basic validation for the form
+
+    //To  Check if any field is empty
+    for (let key in formData) {
+      if (formData[key].trim() === "") {
+        setError("All fields are required.");
+        return;
+      }
+    }
+
+    // Phone: 10 digits
+    if (!/^\d{10}$/.test(formData.phone)) {
+      setError("Phone number must be exactly 10 digits.");
+      return;
+    }
+
+    //  ZIP: 6 digits
+    if (!/^\d{6}$/.test(formData.zip)) {
+      setError("ZIP code must be exactly 6 digits.");
+      return;
+    }
+
+    // for proceeding to checkout
+    localStorage.setItem("addressForm", JSON.stringify(formData));
+    navigate("/checkout");
   };
 
-  // Back to cart
   const handleBack = () => {
     navigate(-1);
   };
@@ -118,6 +143,9 @@ function AddressForm() {
           placeholder="Enter phone number"
           required
         />
+
+        {/*To Show validation error if exists */}
+        {error && <p className="errorText">{error}</p>}
 
         <div className="addressButtons">
           <button

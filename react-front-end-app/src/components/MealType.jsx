@@ -19,7 +19,7 @@ function MealType() {
 
   // base URL for backend API
   const baseURL = "http://localhost:8080/api/carts";
-  const userId = 1;  // fixed user for now
+  const userId = 1;  // fixed user 
 
   // helper function to load local saved quantities
   const loadLocalQuantities = (data) => {
@@ -39,7 +39,7 @@ function MealType() {
     localStorage.setItem("cartQuantities", JSON.stringify(saved));
   };
 
-  // fetch menu items and cart data to merge existing quantities
+  // to  fetch menu items and cart data to merge existing quantities
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -118,7 +118,7 @@ function MealType() {
         setTotal((prevTotal) => prevTotal + item.price * quantity);
       }
 
-      // show message on screen instead of alert
+    //massage showing on screen
       setMessage(`${item.name} added to cart successfully`);
       setTimeout(() => setMessage(""), 2500); // hide after 2.5 seconds
     } catch (err) {

@@ -16,7 +16,7 @@ public class MenuDataLoader {
     CommandLineRunner initDatabase(MenuItemRepository menuRepo) {
         return args -> {
 
-            // Only insert data if the table is empty
+            // to insert data if the table is empty
             if (menuRepo.count() == 0) {
 
                 List<MenuItem> items = List.of(

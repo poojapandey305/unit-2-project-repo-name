@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 // Importing food menu data
 import foodMenu from "../data/foodMenu";
 
-// Importing the CSS file for styling this component
+
 import './Home.css';
 
 // Importing React and some of its hooks (useRef, useState, useEffect )
@@ -12,7 +12,7 @@ import React, { useRef, useState, useEffect } from "react";
 
 function Home() {
   return (
-    // Defining a div with a class name for styling using CSS
+    
     <div className="mainpageDiv">
       
       {/* Page heading */}
@@ -38,5 +38,5 @@ function Home() {
   );
 }
 
-// Exporting the component to be used in other parts of the app
+
 export default Home;

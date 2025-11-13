@@ -1,11 +1,11 @@
-// Importing React library to use JSX and components
+
 import React from 'react';
 
-// Importing styles from MealType.css file
+
 import './MealType.css';
 
 // Defining the MenuItem component
-// It receives three props: item (food details), refEl (reference to dropdown), and onChange (event handler)
+
 function MenuItem({ item, refEl, onChange }) {
   // creating an array of quantities from 0 to 5
   const quantities = [0, 1, 2, 3, 4, 5];
@@ -19,10 +19,10 @@ function MenuItem({ item, refEl, onChange }) {
         className="itemImage"
       />
 
-      {/* displaying the food item's name */}
+     
       <span className="itemName">{item.name}</span>
 
-      {/* showing the price of the item */}
+      
       <span className="itemPrice">${item.price}</span>
 
       {/* label shown before the dropdown */}
@@ -31,9 +31,9 @@ function MenuItem({ item, refEl, onChange }) {
       {/* Dropdown menu to select quantity */}
       <select
         className="quantitySelect"
-        ref={refEl}                   // Pass dropdown element reference to parent
-        value={item.selectedQty || 0} // prefill quantity based on backend data
-        onChange={onChange}           // Trigger parent's handler on change
+        ref={refEl}                   
+        value={item.selectedQty || 0} 
+        onChange={onChange}           
       >
         {/* Looping through quantity options and creating dropdown options */}
         {quantities.map(qty => (

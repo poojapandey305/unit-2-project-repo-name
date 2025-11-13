@@ -1,92 +1,130 @@
-
-//Importing necessary React tools and components
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Cart.css';
+import React, { useEffect, useState } from "react";
+import "./Cart.css";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
-  // state variables
-  const [cart, setCart] = useState(null);
-  const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("loggedInUser"));
-  const userId = user?.id || 1; // fallback to default user if not logged in
-  const baseURL = "http://localhost:8080/api/carts";
+  const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [userId, setUserId] = useState(null);
 
-  // fetch the cart for current user
+  //Method to Load logged-in user and cart
   useEffect(() => {
-    fetch(`${baseURL}/user/${userId}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log("Cart data:", data);
-        setCart(data);
+    const storedUser = localStorage.getItem("urbanspiceUser");
+    if (!storedUser) return;
 
-        // calculate total if items exist
-        if (data && data.cartItems) {
-          const sum = data.cartItems.reduce((acc, item) => {
-            const price = Number(item.menuItem?.price || 0);
-            const qty = Number(item.quantity || 0);
-            return acc + price * qty;
-          }, 0);
-          setTotal(sum);
-        }
+    const user = JSON.parse(storedUser);
+    setUserId(user.userId);
+
+    fetchCart(user.userId);
+  }, []);
+
+  //Method to Fetch cart from backend
+  const fetchCart = (uid) => {
+    fetch(`http://localhost:8080/api/carts/user/${uid}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const items = data.cartItems || [];
+        setCartItems(items);
+        calculateTotal(items);
       })
-      .catch(err => console.error("Error fetching cart:", err));
-  }, [userId]);
+      .catch((err) => console.log("Error loading cart:", err));
+  };
 
-  if (!cart) return <p>Loading cart...</p>;
+  //For total calculation
+  const calculateTotal = (items) => {
+    const sum = items.reduce(
+      (acc, item) => acc + item.menuItem.price * item.quantity,
+      0
+    );
+    setTotal(sum);
+  };
+
+  // To Update quantity
+  const handleQuantityChange = async (cartItemId, newQty) => {
+    if (newQty < 1) return;
+
+    await fetch(
+      `http://localhost:8080/api/carts/updateQuantity/${cartItemId}?quantity=${newQty}`,
+      { method: "PUT" }
+    );
+
+    fetchCart(userId);
+  };
+
+  //  To Remove item from  the cart
+  const handleRemove = async (cartItemId) => {
+    await fetch(
+      `http://localhost:8080/api/carts/removeItem/${cartItemId}`,
+      { method: "DELETE" }
+    );
+
+    fetchCart(userId);
+  };
 
   return (
-    <div className="cartDiv">
+    <div className="cart-container">
+
+      {/* Go Back Button */}
+      <button className="back-btn" onClick={() => navigate(-1)}>
+        Go Back
+      </button>
+
       <h2>Your Cart</h2>
 
-      {/* check if there are items in the cart */}
-      {cart.cartItems && cart.cartItems.length > 0 ? (
-        <>
-          {/* render each cart item */}
-          {cart.cartItems.map((ci) => (
-            <div key={ci.cartItemId} className="cartItem">
-              <img
-                src={ci.menuItem?.image && ci.menuItem.image.startsWith('/')
-                  ? ci.menuItem.image
-                  : `/${ci.menuItem?.image}`}
-                alt={ci.menuItem?.name}
-                className="cartItemImage"
-              />
-              <span className="cartItemName">{ci.menuItem?.name}</span>
-              <span className="cartItemQty">Qty: {ci.quantity}</span>
-              <span className="cartItemPrice">
-                ${(ci.menuItem?.price * ci.quantity).toFixed(2)}
-              </span>
-            </div>
-          ))}
-
-          {/* total section */}
-          <div className="cartTotal">
-            <strong>Total: ${isNaN(total) ? 0 : total.toFixed(2)}</strong>
-          </div>
-
-          {/* action buttons */}
-          <div className="cartButtons">
-            <button
-              className="goBackButton"
-              onClick={() => navigate(-1)}  // navigate to previous page
-            >
-              Go Back
-            </button>
-
-            <button
-              className="checkoutButton"
-              onClick={() => navigate("/address")}
-            >
-              Proceed to Checkout
-            </button>
-          </div>
-        </>
-      ) : (
+      {cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
+      ) : (
+        cartItems.map((item) => (
+          <div key={item.cartItemId} className="cart-item">
+            <img src={item.menuItem.image} alt="" className="cart-img" />
+
+            <div className="cart-details">
+              <h3>{item.menuItem.name}</h3>
+              <p>$ {item.menuItem.price}</p>
+
+              <div className="quantity-section">
+                <button
+                  onClick={() =>
+                    handleQuantityChange(item.cartItemId, item.quantity - 1)
+                  }
+                >
+                  -
+                </button>
+
+                <span>{item.quantity}</span>
+
+                <button
+                  onClick={() =>
+                    handleQuantityChange(item.cartItemId, item.quantity + 1)
+                  }
+                >
+                  +
+                </button>
+              </div>
+
+              <button
+                className="remove-btn"
+                onClick={() => handleRemove(item.cartItemId)}
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        ))
       )}
+
+      {/* Total */}
+      <h3 className="total-text">Total: $ {total}</h3>
+
+      {/* Checkout Button */}
+      <button
+        className="checkout-btn"
+        onClick={() => navigate("/address")}
+      >
+        Proceed to Checkout
+      </button>
     </div>
   );
 }

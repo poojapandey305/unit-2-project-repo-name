@@ -24,7 +24,7 @@ function PaymentPreference() {
 
       setMessage(`Order confirmed successfully! 
 Payment Method: ${selectedMethod} 
-Status: Pending`);
+   [Payment Status: Pending]`);
     } catch (err) {
       setMessage("Error confirming payment: " + err.message);
     }
@@ -59,11 +59,11 @@ Status: Pending`);
             checked={selectedMethod === "Pay Now"}
             onChange={(e) => setSelectedMethod(e.target.value)}
           />
-          Pay Now (Coming Soon)
+          Pay Now
         </label>
       </div>
 
-      {/* Button section styled like AddressForm */}
+      {/* Button section styling */}
       <div className="payment-buttons">
         <Button
           text="⬅ Previous"
@@ -77,7 +77,7 @@ Status: Pending`);
         />
       </div>
 
-      {/* Message displayed after confirmation */}
+      {/* Message to be displayed after confirmation */}
       {message && <p className="confirmation-message">{message}</p>}
     </div>
   );

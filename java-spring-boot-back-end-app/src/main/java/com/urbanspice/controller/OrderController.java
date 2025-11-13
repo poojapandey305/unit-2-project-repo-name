@@ -19,12 +19,12 @@ public class OrderController {
     public Order createOrder(@RequestBody Order order) {
         return orderService.saveOrder(order);
     }
-
+//for getting list of order
     @GetMapping
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
-
+//for getting an order by its id
     @GetMapping("/{orderId}")
     public Order getOrderById(@PathVariable Long orderId) {
         return orderService.getOrderById(orderId);

@@ -19,7 +19,8 @@ public class AddressController {
 
     }
 
-    //read all
+    //read all or get all the address
+
     @GetMapping
     public List < Address>getAllAddressess(){
         return addressRepository.findAll();
@@ -30,7 +31,7 @@ public class AddressController {
         return addressRepository.findById(id).orElse(null);
     }
 
-    //Update
+    //to Update the address
 
     @PutMapping("/{id}")
     public Address updateAddress(@PathVariable Long id, @RequestBody Address updatedAddress){
