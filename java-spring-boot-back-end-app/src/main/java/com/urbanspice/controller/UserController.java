@@ -1,102 +1,82 @@
 package com.urbanspice.controller;
-import com.urbanspice.repository.UserRepository;
-import com.urbanspice.service.UserService;
+
 import com.urbanspice.model.User;
+import com.urbanspice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
-
-
+@CrossOrigin(origins = "http://localhost:5173") //
 public class UserController {
 
     @Autowired
-
     private UserService userService;
 
-    //create user
+    //Method to Create a new user
     @PostMapping
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
-    //read all user
-
+    // Method to Get all users
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-
-    // read user by id
+    // Method to Get user by ID
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id).orElse(null);
     }
 
-    //update the user
+    // Method to Update user
     @PutMapping("/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        User existing = userService.getUserById(id).orElse(null);
-        if (existing != null) {
-            existing.setName(updatedUser.getName());
-            existing.setEmail(updatedUser.getEmail());
-            return userService.updateUser(id,updatedUser);
-        }
-        return null;
+        return userService.updateUser(id, updatedUser);
     }
 
-    //delete the existing user by id
+    // Delete user
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id) {
-        Optional<User> existingUser = userService.getUserById(id);
-        if (existingUser.isPresent()) {
-            userService.deleteUser(id);
-            return "user successfully deleted.";
-        } else {
-            return "user not found.";
-        }
+        userService.deleteUser(id);
+        return "User deleted successfully.";
+    }
+//getting user
+    // Get users by name
+    @GetMapping("/name/{name}")
+    public List<User> getUsersByName(@PathVariable String name) {
+        return userService.getUsersByName(name);
     }
 
-        // Custom filters
-
-// Get all users by name
-        @GetMapping("/name/{name}")
-        public List<User> getUsersByName(@PathVariable String name) {
-            return userService.getUsersByName(name);
-        }
-
-
-// Get a single user by email
-        @GetMapping("/email/{email}")
-        public User getUserByEmail(@PathVariable String email) {
-            return userService.getUserByEmail(email);
-        }
-
-
-
-
+    // Get user by email
+    @GetMapping("/email/{email}")
+    public User getUserByEmail(@PathVariable String email) {
+        return userService.getUserByEmail(email);
     }
 
+    // Method to Register new user
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody User newUser) {
+        if (userService.getUserByEmail(newUser.getEmail()) != null) {
+            return ResponseEntity.badRequest().body("Email already registered!");
+        }
+        User savedUser = userService.createUser(newUser);
+        return ResponseEntity.ok(savedUser);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // Method to  Login existing user
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
+        User existingUser = userService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
+        if (existingUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
+        }
+        return ResponseEntity.ok(existingUser);
+    }
+}
