@@ -1,1 +1,204 @@
-# unit-2-project-repo-name
+Urban Spice – Indian Vegetarian Food Ordering App
+📌 Project Overview
+
+Urban Spice is a full-stack online food-ordering application focused on 100% vegetarian and egg-free Indian cuisine.
+It provides a reliable, user-friendly space for customers — including vegetarians, vegans, people with egg allergies, and non-vegetarians who enjoy lighter, flavorful Indian food.
+
+Users can browse meals by category (Breakfast, Lunch, Dinner), add items to the cart, enter their delivery address, choose payment method, and place an order.
+
+This project was created as part of LaunchCode Unit-2 Full Stack Coursework, demonstrating React, Spring Boot, MySQL, and RESTful API integration.
+
+📷 
+![Urban Spice](image.png)
+
+
+
+Homepage
+
+Menu Page
+
+Cart
+
+ER Diagram
+
+🛠 Technologies Used
+Frontend
+
+React (Functional Components + Hooks)
+
+React Router DOM
+
+CSS3 with Flexbox, Grid & Media Queries
+
+Fetch API for backend calls
+
+Backend
+
+Java 21
+
+Spring Boot
+
+Spring Web
+
+Spring Data JPA / Hibernate
+
+MySQL Database
+
+
+
+Tools
+
+IntelliJ IDEA (Backend development)
+
+VS Code (Frontend development)
+
+MySQL Workbench
+
+Git & GitHub
+
+Postman (API testing)
+
+✨ Features
+Frontend Features
+
+Home page with category navigation
+
+Responsive UI (mobile/tablet/desktop)
+
+Add to cart functionality
+
+Update cart item quantity
+
+Delete cart item
+
+Cart total auto-updates
+
+Login / Logout (LocalStorage)
+
+Address form with validation
+
+Payment preference selection
+
+Backend Features
+
+Fully implemented CRUD endpoints
+
+Login authentication (email + password)
+
+Cart auto-creation per user
+
+Cart item quantity updates
+
+Order + OrderItems + Payment system
+
+Menu seeding on startup
+
+JOINS across MenuItem, CartItem, Cart, User, Address, Orders
+
+📊 ER Diagram
+
+![Erd_screen_shot](image-1.png)
+
+📡 API Endpoints
+User Endpoints
+Method	Endpoint	Description
+POST	/api/users	Create user
+GET	/api/users	Get all users
+GET	/api/users/{id}	Get user by ID
+PUT	/api/users/{id}	Update user
+DELETE	/api/users/{id}	Delete user
+POST	/api/users/register	Register user
+POST	/api/users/login	Login user
+Menu Item Endpoints
+Method	Endpoint	Description
+POST	/api/menuitems	Create item
+GET	/api/menuitems	Get all items
+GET	/api/menuitems/{id}	Get item by ID
+PUT	/api/menuitems/{id}	Update item
+DELETE	/api/menuitems/{id}	Delete item
+GET	/api/menuitems/category/{category}	Filter by category
+Cart Endpoints
+Method	Endpoint	Description
+GET	/api/carts	Get all carts
+GET	/api/carts/{id}	Get cart by ID
+GET	/api/carts/user/{userId}	Get or create a user’s cart
+POST	/api/carts/{cartId}/addItem/{itemId}?quantity=	Add item
+PUT	/api/carts/updateQuantity/{cartItemId}?quantity=	Update quantity
+DELETE	/api/carts/removeItem/{cartItemId}	Remove item
+GET	/api/carts/{cartId}/total	Calculate total
+Order Endpoints
+Method	Endpoint	Description
+POST	/api/orders	Create order
+GET	/api/orders	Get all orders
+GET	/api/orders/{orderId}	Get order
+DELETE	/api/orders/{orderId}	Delete order
+Payment Endpoints
+Method	Endpoint	Description
+POST	/api/payments	Create payment
+GET	/api/payments	Get all payments
+GET	/api/payments/{id}	Get payment
+DELETE	/api/payments/{id}	Delete payment
+📥 Installation Instructions
+Backend Setup (Spring Boot)
+
+Clone the repository:
+
+git clone https://github.com/poojapandey305/unit-2-project-repo-name.git
+
+
+Navigate to backend folder:
+
+cd java-spring-boot-back-end-app
+
+
+Configure application.properties with your MySQL username/password.
+
+Run the Spring Boot app:
+
+mvn spring-boot:run
+
+
+Backend will run at:
+
+http://localhost:8080
+
+Frontend Setup (React)
+
+Navigate to frontend:
+
+cd react-front-end-app
+
+
+Install dependencies:
+
+npm install
+
+
+Start the app:
+
+npm run dev
+
+
+Frontend runs at:
+
+http://localhost:5173
+
+🚀 Future Enhancements
+
+Online payment gateway (Stripe/PayPal)
+
+Order history for each user
+
+Admin panel to manage menu items
+
+User registration page connected to backend
+
+Live order status updates
+
+Add recommended meals / popular items section
+
+👩‍💻 Author
+
+Pooja Pandey
+LaunchCode Full-Stack Student
+GitHub: poojapandey305
