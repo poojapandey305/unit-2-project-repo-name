@@ -1,4 +1,7 @@
 Urban Spice – Indian Vegetarian Food Ordering App
+
+
+
 📌 Project Overview
 
 Urban Spice is a full-stack online food-ordering application focused on 100% vegetarian and egg-free Indian cuisine.
@@ -46,7 +49,7 @@ MySQL Database
 
 
 
-Tools
+🔧Tools
 
 IntelliJ IDEA (Backend development)
 
@@ -103,15 +106,25 @@ JOINS across MenuItem, CartItem, Cart, User, Address, Orders
 🍽️ Menu Item APIs
 Method	Endpoint	Description
 GET	/api/menuitems/category/{category}	Fetch menu items by category (breakfast, lunch, dinner)
+
+
+
 🛒 Cart APIs
 Method	Endpoint	Description
 GET	/api/carts/user/{userId}	Get or create cart for the logged-in user
 PUT	/api/carts/updateQuantity/{cartItemId}?quantity=x	Update the quantity of a cart item
 DELETE	/api/carts/removeItem/{cartItemId}	Remove an item from the user's cart
+
+
+
 👤 User Authentication APIs
 Method	Endpoint	Description
 POST	/api/users/login	Login user and return user details
 POST	/api/users/register	Register a new user
+
+
+
+
 💳 Payment APIs
 Method	Endpoint	Description
 POST	/api/payments	Create a payment entry (Pay on Delivery / Pay Now)
