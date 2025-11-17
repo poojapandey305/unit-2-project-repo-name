@@ -100,44 +100,21 @@ JOINS across MenuItem, CartItem, Cart, User, Address, Orders
 ![Erd_screen_shot](image-1.png)
 
 📡 API Endpoints
-User Endpoints
+🍽️ Menu Item APIs
 Method	Endpoint	Description
-POST	/api/users	Create user
-GET	/api/users	Get all users
-GET	/api/users/{id}	Get user by ID
-PUT	/api/users/{id}	Update user
-DELETE	/api/users/{id}	Delete user
-POST	/api/users/register	Register user
-POST	/api/users/login	Login user
-Menu Item Endpoints
+GET	/api/menuitems/category/{category}	Fetch menu items by category (breakfast, lunch, dinner)
+🛒 Cart APIs
 Method	Endpoint	Description
-POST	/api/menuitems	Create item
-GET	/api/menuitems	Get all items
-GET	/api/menuitems/{id}	Get item by ID
-PUT	/api/menuitems/{id}	Update item
-DELETE	/api/menuitems/{id}	Delete item
-GET	/api/menuitems/category/{category}	Filter by category
-Cart Endpoints
+GET	/api/carts/user/{userId}	Get or create cart for the logged-in user
+PUT	/api/carts/updateQuantity/{cartItemId}?quantity=x	Update the quantity of a cart item
+DELETE	/api/carts/removeItem/{cartItemId}	Remove an item from the user's cart
+👤 User Authentication APIs
 Method	Endpoint	Description
-GET	/api/carts	Get all carts
-GET	/api/carts/{id}	Get cart by ID
-GET	/api/carts/user/{userId}	Get or create a user’s cart
-POST	/api/carts/{cartId}/addItem/{itemId}?quantity=	Add item
-PUT	/api/carts/updateQuantity/{cartItemId}?quantity=	Update quantity
-DELETE	/api/carts/removeItem/{cartItemId}	Remove item
-GET	/api/carts/{cartId}/total	Calculate total
-Order Endpoints
+POST	/api/users/login	Login user and return user details
+POST	/api/users/register	Register a new user
+💳 Payment APIs
 Method	Endpoint	Description
-POST	/api/orders	Create order
-GET	/api/orders	Get all orders
-GET	/api/orders/{orderId}	Get order
-DELETE	/api/orders/{orderId}	Delete order
-Payment Endpoints
-Method	Endpoint	Description
-POST	/api/payments	Create payment
-GET	/api/payments	Get all payments
-GET	/api/payments/{id}	Get payment
-DELETE	/api/payments/{id}	Delete payment
+POST	/api/payments	Create a payment entry (Pay on Delivery / Pay Now)
 📥 Installation Instructions
 Backend Setup (Spring Boot)
 
