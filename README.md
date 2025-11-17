@@ -24,7 +24,7 @@ React (Functional Components + Hooks)
 
 React Router DOM
 
-CSS3 with Flexbox, Grid & Media Queries
+CSS with Flexbox, Grid & Media Queries
 
 Fetch API for backend calls
 
@@ -121,7 +121,7 @@ JOINS across MenuItem, CartItem, Cart, User, Address, Orders
 | POST | `/api/users/register` | Register a new user |
 
 
-## 💳 Payment APIs
+## 💵 Payment APIs
 
 | **Method** | **Endpoint** | **Description** |
 |-----------|--------------|-----------------|
