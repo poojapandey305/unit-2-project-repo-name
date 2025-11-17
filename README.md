@@ -1,10 +1,10 @@
-Urban Spice – Indian Vegetarian Food Ordering App
+**Urban Spice🌶 – Indian Vegetarian Food Ordering App🥘**
 
 
 
-📌 Project Overview
+ **Project👩🏽‍🍳 Overview**
 
-Urban Spice is a full-stack online food-ordering application focused on 100% vegetarian and egg-free Indian cuisine.
+Urban Spice is a full-stack online food-ordering application focused on 100% vegetarian Indian cuisine.
 It provides a reliable, user-friendly space for customers — including vegetarians, vegans, people with egg allergies, and non-vegetarians who enjoy lighter, flavorful Indian food.
 
 Users can browse meals by category (Breakfast, Lunch, Dinner), add items to the cart, enter their delivery address, choose payment method, and place an order.
@@ -16,15 +16,8 @@ This project was created as part of LaunchCode Unit-2 Full Stack Coursework, dem
 
 
 
-Homepage
 
-Menu Page
-
-Cart
-
-ER Diagram
-
-🛠 Technologies Used
+🔧 **Technologies Used**
 Frontend
 
 React (Functional Components + Hooks)
@@ -61,8 +54,8 @@ Git & GitHub
 
 Postman (API testing)
 
-✨ Features
-Frontend Features
+**📃Features**
+**Frontend Features**
 
 Home page with category navigation
 
@@ -98,82 +91,91 @@ Menu seeding on startup
 
 JOINS across MenuItem, CartItem, Cart, User, Address, Orders
 
-📊 ER Diagram
+📊 **ER Diagram**
 
 ![Erd_screen_shot](image-1.png)
 
 📡 API Endpoints
-🍽️ Menu Item APIs
-Method	Endpoint	Description
-GET	/api/menuitems/category/{category}	Fetch menu items by category (breakfast, lunch, dinner)
+
+## 🍽️ Menu Item APIs
+
+| **Method** | **Endpoint** | **Description** |
+|-----------|--------------|-----------------|
+| GET | `/api/menuitems/category/{category}` | Fetch menu items by category (breakfast, lunch, dinner) |
 
 
+## 🛒 Cart APIs
 
-🛒 Cart APIs
-Method	Endpoint	Description
-GET	/api/carts/user/{userId}	Get or create cart for the logged-in user
-PUT	/api/carts/updateQuantity/{cartItemId}?quantity=x	Update the quantity of a cart item
-DELETE	/api/carts/removeItem/{cartItemId}	Remove an item from the user's cart
-
-
-
-👤 User Authentication APIs
-Method	Endpoint	Description
-POST	/api/users/login	Login user and return user details
-POST	/api/users/register	Register a new user
+| **Method** | **Endpoint** | **Description** |
+|-----------|--------------|-----------------|
+| GET | `/api/carts/user/{userId}` | Get or create cart for the logged-in user |
+| PUT | `/api/carts/updateQuantity/{cartItemId}?quantity=x` | Update quantity of a cart item |
+| DELETE | `/api/carts/removeItem/{cartItemId}` | Remove an item from the user's cart |
 
 
+## 👤 User Authentication APIs
+
+| **Method** | **Endpoint** | **Description** |
+|-----------|--------------|-----------------|
+| POST | `/api/users/login` | Login user and return user details |
+| POST | `/api/users/register` | Register a new user |
 
 
-💳 Payment APIs
-Method	Endpoint	Description
-POST	/api/payments	Create a payment entry (Pay on Delivery / Pay Now)
-📥 Installation Instructions
-Backend Setup (Spring Boot)
+## 💳 Payment APIs
 
-Clone the repository:
+| **Method** | **Endpoint** | **Description** |
+|-----------|--------------|-----------------|
+| POST | `/api/payments` | Create a payment entry (Pay on Delivery / Pay Now) |
+
+ 
+ 
+ 
+ 👷‍♂️ **Installation Instructions**
+**Backend Setup (Spring Boot)**
+
+**Clone the repository:**
 
 git clone https://github.com/poojapandey305/unit-2-project-repo-name.git
 
 
-Navigate to backend folder:
+**Navigate to backend folder:**
 
 cd java-spring-boot-back-end-app
 
 
 Configure application.properties with your MySQL username/password.
 
-Run the Spring Boot app:
+**Run the Spring Boot app:**
 
 mvn spring-boot:run
 
 
-Backend will run at:
+**Backend will run at:**
 
 http://localhost:8080
 
-Frontend Setup (React)
+**Frontend Setup (React)**
 
-Navigate to frontend:
+**Navigate to frontend:**
 
 cd react-front-end-app
 
 
-Install dependencies:
+**Install dependencies:**
 
 npm install
 
 
-Start the app:
+**Start the app:**
 
 npm run dev
 
 
-Frontend runs at:
+**Frontend runs at:**
 
 http://localhost:5173
 
-🚀 Future Enhancements
+🚀**Future Enhancements**
 
 Online payment gateway (Stripe/PayPal)
 
@@ -187,8 +189,9 @@ Live order status updates
 
 Add recommended meals / popular items section
 
-👩‍💻 Author
+👩🏽‍💻 **Author**
 
-Pooja Pandey
+**Pooja Pandey**
+
 LaunchCode Full-Stack Student
 GitHub: poojapandey305
