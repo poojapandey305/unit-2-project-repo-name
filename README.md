@@ -40,7 +40,8 @@ Spring Data JPA / Hibernate
 
 MySQL Database
 
-
+## 🖼️ Wireframe
+![Wireframe](Screenshot_wireframe.jpg)
 
 🔧Tools
 
